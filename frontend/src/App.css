@@ -1,0 +1,8 @@
+.w-100 {
+  width: 100%;
+}
+
+.bg-image{
+  background-image: url(../public/assets/galaxy-image.jpeg);
+  background-position-x: 150%;
+}
