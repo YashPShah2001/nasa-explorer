@@ -15,7 +15,6 @@ app.get('/events', async (req, res) => {
     const params = new URLSearchParams({ limit, days, status });
     if (source) params.append('source', source);
   
-    // const url = `https://eonet.gsfc.nasa.gov/api/v2.1/events?${params.toString()}`;
     const url = `${API_BASE_URL}/events?${params.toString()}`;
   
     try {

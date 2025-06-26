@@ -18,3 +18,5 @@ backend/dist/
 
 # Other system files
 .DS_Store
+
+/build

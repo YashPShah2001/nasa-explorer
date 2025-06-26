@@ -3,12 +3,13 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
 function CategorySelector({ setSelectedCategory }) {
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await fetch('http://localhost:5000/all-categories');
+                const response = await fetch(`${BASE_URL}/all-categories`);
                 const data = await response.json();
                 setCategories(data);
             } catch (err) {
