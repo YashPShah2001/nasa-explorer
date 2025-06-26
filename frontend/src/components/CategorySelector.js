@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
-function CategorySelector({ setSelectedCategory }) {
+function CategorySelector({ selectedCategory, setSelectedCategory }) {
     const BASE_URL = process.env.REACT_APP_BASE_URL;
     const [categories, setCategories] = useState([]);
 
@@ -18,13 +18,14 @@ function CategorySelector({ setSelectedCategory }) {
         };
 
         fetchCategories();
-    }, []);
-
+    }, [BASE_URL]);
+    const selectedOption = categories.find(cat => cat.id === selectedCategory) || null;
     return (
         <Autocomplete
             size="small"
             options={categories}
             getOptionLabel={(option) => option.label}
+            value={selectedOption}
             onChange={(event, newValue) => {
                 setSelectedCategory(newValue ? newValue.id : null);
             }}

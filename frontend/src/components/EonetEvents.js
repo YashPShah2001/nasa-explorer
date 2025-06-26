@@ -85,6 +85,7 @@ function EonetEvents() {
         <div className="container mt-4 d-flex flex-column min-vh-100">
             <h2 className="text-center text-white mb-4">{events.title}</h2>
             <Form 
+                selectedCategory={selectedCategory}
                 setSelectedCategory={setSelectedCategory} 
                 limit={limit} 
                 setLimit={setLimit} 
@@ -185,12 +186,12 @@ function EventCard({ event }) {
     );
 }
 
-function Form({ setSelectedCategory, limit, setLimit , priorDays, setPriorDays, status, setStatus, setSourceIds, searchTerm, setSearchTerm, setCurrentPage }) {
+function Form({ selectedCategory, setSelectedCategory, limit, setLimit , priorDays, setPriorDays, status, setStatus, setSourceIds, searchTerm, setSearchTerm, setCurrentPage }) {
 
     return (
         <div className="d-flex row pb-2">
             <div className='col-md-2 col-xs-6 pt-2'>
-                <CategorySelector setSelectedCategory={setSelectedCategory} />
+                <CategorySelector selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
             </div>
             <div className='col-md-2 col-xs-6 pt-2'>
                 <FormControl fullWidth size="small">
