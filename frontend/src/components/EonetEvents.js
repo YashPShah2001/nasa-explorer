@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaMapMarkerAlt, FaLink, FaCalendarAlt, FaExternalLinkAlt } from 'react-icons/fa';
 import TextField from '@mui/material/TextField';
+import LinearProgress from '@mui/material/LinearProgress';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
 import SourceSelector from './SourceSelector';
@@ -74,8 +75,7 @@ function EonetEvents() {
     const handlePageChange = (newPage) => {
         if (newPage >= 1 && newPage <= totalPages) setCurrentPage(newPage);
     };
-    // if (!events?.events) return <p className="text-center mt-4 text-white">Loading...</p>;
-    if(loading) return <p className="text-center mt-4 text-white">Loading...</p>;
+    if (!events?.events) return <p className="text-center mt-4 text-white">Loading...</p>;
     if(error) return (
         <div className="alert alert-danger" role="alert">
             {error || 'An unexpected error occurred. Please contact the developer.'}
@@ -98,9 +98,16 @@ function EonetEvents() {
                 setSearchTerm={setSearchTerm}
                 setCurrentPage={setCurrentPage}
             />
+            {
+                loading && (
+                    <div className='d-flex justify-content-center items-center'>
+                        <LinearProgress className='w-100'/>
+                    </div>
+                )
+            }
             <div className='flex-grow-1'>
             {
-                events?.events.length === 0 ? (
+                filteredEvents?.length === 0 ? (
                     <div className="text-center text-white my-5">
                         <h5>No events found for the selected filters.</h5>
                         <p>Try changing the filters to see more results.</p>
