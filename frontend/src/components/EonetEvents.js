@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+
 import { FaMapMarkerAlt, FaLink, FaCalendarAlt, FaExternalLinkAlt } from 'react-icons/fa';
 import TextField from '@mui/material/TextField';
 import LinearProgress from '@mui/material/LinearProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 
 import SourceSelector from './SourceSelector';
@@ -22,6 +24,7 @@ function EonetEvents() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    // Logic & implementation for fetching data from /events and /category endpoints with respective parameters.
     useEffect(() => {
         const fetchEvents = async () => {
             try {
@@ -35,13 +38,12 @@ function EonetEvents() {
                 params.append('limit', limit);
                 params.append('days', priorDays);
                 params.append('status', status);
-                if (sourceIds) params.append('source', sourceIds);
+                if (sourceIds) params.append('source', sourceIds); //only if sourceID's selected.
     
                 url += `?${params.toString()}`;
                 
                 const response = await fetch(url);
                 const data = await response.json();
-                // console.log("Events:",data);
                 
                 setEvents(data);
                 setCurrentPage(1);
@@ -57,7 +59,7 @@ function EonetEvents() {
         fetchEvents();
     }, [selectedCategory, limit, priorDays, status, sourceIds, BASE_URL]);
 
-    
+    // Filtering the events list with respect to event id, event title, categories and sources
     const filteredEvents = events?.events.filter((event) => {
         const search = searchTerm.toLowerCase();
         const matchId = event.id.toLowerCase().includes(search);
@@ -66,26 +68,28 @@ function EonetEvents() {
         const matchSource = event.sources.some(src => src.id.toLowerCase().includes(search));
         return matchId || matchTitle || matchCategory || matchSource;
     });
-    // Pagination logic
+    // Pagination logic on filtered events list
     const indexOfLast = currentPage * eventsPerPage;
     const indexOfFirst = indexOfLast - eventsPerPage;
     const currentEvents = filteredEvents?.slice(indexOfFirst, indexOfLast);
     const totalPages = Math.ceil(filteredEvents?.length / eventsPerPage);
-
+    // settign to page moved or selected
     const handlePageChange = (newPage) => {
         if (newPage >= 1 && newPage <= totalPages) setCurrentPage(newPage);
     };
-    if (!events?.events) return <p className="text-center mt-4 text-white">Loading...</p>;
+    // Initial loading until events are fetched. Checking for events key in the response.
+    if (!events?.events) return <div className="d-flex justify-content-center align-items-center mt-4 text-white"><CircularProgress/>Loading...</div>;
+    // Throwing error when caught, so the user understands something is wrong.
     if(error) return (
         <div className="alert alert-danger" role="alert">
             {error || 'An unexpected error occurred. Please contact the developer.'}
         </div>
     );
+    // Main component
     return (
         <div className="container mt-4 d-flex flex-column min-vh-100">
             <h2 className="text-center text-white mb-4">{events.title}</h2>
             <Form 
-                selectedCategory={selectedCategory}
                 setSelectedCategory={setSelectedCategory} 
                 limit={limit} 
                 setLimit={setLimit} 
@@ -137,15 +141,13 @@ function EonetEvents() {
     );
 }
 function EventCard({ event }) {
-    const category = event.categories[0]?.title;
+    const category = event.categories[0]?.title; // getting only the first category from list of categories
     return (
         <div className="card h-100 shadow-lg border-0 bg-dark text-white rounded-4 overflow-hidden">
             <div className="card-body d-flex flex-column justify-content-between">
                 <div>
                     <h5 className="card-title fw-bold mb-2">{event.title}</h5>
-
                     <span className="badge bg-info text-dark mb-3">{category}</span>
-
                     <div className="mb-3">
                         <strong>Sources:</strong>
                         <div className="mt-2 d-flex flex-wrap gap-2">
@@ -164,7 +166,6 @@ function EventCard({ event }) {
                             ))}
                         </div>
                     </div>
-
                     <div>
                         <strong>Recent Locations:</strong>
                         <ul className="list-unstyled mt-2">
@@ -193,12 +194,11 @@ function EventCard({ event }) {
     );
 }
 
-function Form({ selectedCategory, setSelectedCategory, limit, setLimit , priorDays, setPriorDays, status, setStatus, setSourceIds, searchTerm, setSearchTerm, setCurrentPage }) {
-
+function Form({setSelectedCategory, limit, setLimit , priorDays, setPriorDays, status, setStatus, setSourceIds, searchTerm, setSearchTerm, setCurrentPage }) {
     return (
         <div className="d-flex row pb-2">
             <div className='col-md-2 col-xs-6 pt-2'>
-                <CategorySelector selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+                <CategorySelector setSelectedCategory={setSelectedCategory} />
             </div>
             <div className='col-md-2 col-xs-6 pt-2'>
                 <FormControl fullWidth size="small">
@@ -277,7 +277,6 @@ function PaginationControls({ currentPage, totalPages, onPageChange, eventsPerPa
                     }}
                 />
             </div>
-            
             <div className="d-flex align-items-center text-white">
                 <button
                     className="btn btn-secondary mx-2"

@@ -10,7 +10,7 @@ function SourceSelector({ setSourceIds }) {
     const filterOptions = createFilterOptions({
         stringify: (option) => `${option.id} ${option.title}`,
     });
-
+    // Fetching all sources
     useEffect(()=>{
         const fetchSources = async ()=> {
             try{
