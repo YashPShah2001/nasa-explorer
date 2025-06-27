@@ -8,12 +8,12 @@ const app = express();
 
 app.use(cors({origin:'*'}))
 const API_BASE_URL = process.env.API_BASE_URL;
-
+// Fetching the events
 app.get('/events', async (req, res) => {
-    const { limit = 5, days = 10, status = 'open', source } = req.query;
+    const { limit = 5, days = 10, status = 'open', source } = req.query; // defaulting variables if not passed
   
     const params = new URLSearchParams({ limit, days, status });
-    if (source) params.append('source', source);
+    if (source) params.append('source', source); // add source only if passed
   
     const url = `${API_BASE_URL}/events?${params.toString()}`;
   
@@ -26,7 +26,7 @@ app.get('/events', async (req, res) => {
       res.status(500).json({ error: 'Failed to fetch events' });
     }
 });
-
+// Fetching all available categories and formatting to send to front-end
 app.get('/all-categories', async (req, res) => {
     const url = `${API_BASE_URL}/categories`;
   
@@ -43,7 +43,7 @@ app.get('/all-categories', async (req, res) => {
       res.status(500).json({ error: 'Failed to fetch categories' });
     }
 });
-
+// Fetching events of specific category with category ID passed as path parameter
 app.get('/category/:id', async (req, res) => {
     const { limit = 5, days = 10, status = 'open', source } = req.query;
     const categoryId = req.params.id;
@@ -62,7 +62,7 @@ app.get('/category/:id', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch events by category' });
     }
 });
-
+// Fetching available list of sources
 app.get('/sources', async (req, res) => {
     const url = `${API_BASE_URL}/sources`;
   
@@ -77,7 +77,7 @@ app.get('/sources', async (req, res) => {
   });
 
 const PORT = process.env.PORT || 5000;
-if(process.env.NODE_ENV !== 'test'){
+if(process.env.NODE_ENV !== 'test'){ // Not starting server when in test
     app.listen(PORT,() => {
         console.log("Server running on port "+ PORT);
     });
