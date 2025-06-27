@@ -32,14 +32,15 @@ Please note: Render becomes slow due to inactivity, it will take time to load th
 
 ### Prerequisites
 
-- Node.js and npm installed
+- Node.js : v20.16.0
+- NPM : 10.8.1
 
 ---
 
 ### 1️⃣ Clone the repository
 
 ```bash
-git clone https://github.com/your-username/nasa-explorer.git
+git clone https://github.com/YashPShah2001/nasa-explorer.git
 cd nasa-explorer
 ```
 
@@ -51,16 +52,23 @@ Open new terminal and rename to backend
 cd backend
 npm install
 ```
-Open new terminal and rename to frontend
 #### Frontend
+Open new terminal and rename to frontend
 ```bash
 cd frontend
 npm install
 ```
+### 3️⃣ Test the backend
+On the backend terminal, run test.
+```bash
+npm test
+```
 
-### 3️⃣ Run application locally
+This will run jest tests and output the results.
+
+### 4️⃣ Run application locally
 #### Start the backend server
-In the backend terminal, start the server
+On the backend terminal, start the server
 ```bash
 npm start
 ```
@@ -100,3 +108,16 @@ Retrieve events filtered by **Category ID**.
 | `status`      | string   | Filter by event status (`open` or `closed`). If omitted, returns only currently open events.| `/categories/8?status=open`|
 | `limit`       | number   | Limit the number of events returned.| `/categories/8?limit=5`|
 | `days`        | number   | Return only events from the last N days (including today).| `/categories/8?days=20`|
+
+### `GET /all-categories`
+
+Retrieve the list of all available categories.
+```http
+GET /all-categories
+```
+
+### `GET /sources`
+Retrieve the list of all available sources.
+```http
+GET /sources
+```
