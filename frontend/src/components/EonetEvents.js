@@ -169,7 +169,7 @@ function EventCard({ event }) {
                     <div>
                         <strong>Recent Locations:</strong>
                         <ul className="list-unstyled mt-2">
-                            {event.geometries.slice(0, 3).map((geo, index) => (
+                            {event.geometries.slice(-3).map((geo, index) => (
                                 <li key={index} className="mb-1">
                                     <FaCalendarAlt className="me-1" />
                                     <span className="fw-light">{geo.date}</span><br />
