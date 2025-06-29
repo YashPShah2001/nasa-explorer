@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import moment from 'moment';
 
 import { FaMapMarkerAlt, FaLink, FaCalendarAlt, FaExternalLinkAlt } from 'react-icons/fa';
 import TextField from '@mui/material/TextField';
@@ -169,12 +170,16 @@ function EventCard({ event }) {
                     <div>
                         <strong>Recent Locations:</strong>
                         <ul className="list-unstyled mt-2">
-                            {event.geometries.slice(-3).map((geo, index) => (
-                                <li key={index} className="mb-1">
-                                    <FaCalendarAlt className="me-1" />
-                                    <span className="fw-light">{geo.date}</span><br />
-                                    <FaMapMarkerAlt className="me-1" />
-                                    <span>{geo.coordinates.join(', ')}</span>
+                            {event.geometries.slice(-3).reverse().map((geo, index) => (
+                                <li key={index} className="mb-1 row d-flex justify-content-between">
+                                    <div className='col-sm-6 p-0'>
+                                        <FaCalendarAlt className="me-1" />
+                                        <span className="fw-light">{moment(geo.date).format("MMM D, YYYY HH:mm")}</span>
+                                    </div>
+                                    <div className='col-sm-6 p-0'>
+                                        <FaMapMarkerAlt className="me-1" />
+                                        <span>{geo.coordinates.join(', ')}</span>
+                                    </div>   
                                 </li>
                             ))}
                         </ul>
