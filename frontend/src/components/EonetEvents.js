@@ -171,12 +171,12 @@ function EventCard({ event }) {
                         <strong>Recent Locations:</strong>
                         <ul className="list-unstyled mt-2">
                             {event.geometries.slice(-3).reverse().map((geo, index) => (
-                                <li key={index} className="mb-1 row d-flex justify-content-between">
-                                    <div className='col-sm-6 p-0'>
+                                <li key={index} className="mb-1 d-flex justify-content-between w-100">
+                                    <div className='col-6'>
                                         <FaCalendarAlt className="me-1" />
                                         <span className="fw-light">{moment(geo.date).format("MMM D, YYYY HH:mm")}</span>
                                     </div>
-                                    <div className='col-sm-6 p-0'>
+                                    <div className='col-6'>
                                         <FaMapMarkerAlt className="me-1" />
                                         <span>{geo.coordinates.join(', ')}</span>
                                     </div>   
