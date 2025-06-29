@@ -97,7 +97,7 @@ Retrieve a list of natural events.
 | `limit`       | number   | Limit the number of events returned.| `/events?limit=5`|
 | `days`        | number   | Return only events from the last N days (including today).| `/events?days=20`|
 
-### `GET /categories/:id`
+### `GET /category/:id`
 
 Retrieve events filtered by **Category ID**.
 
@@ -109,6 +109,11 @@ Retrieve events filtered by **Category ID**.
 | `limit`       | number   | Limit the number of events returned.| `/categories/8?limit=5`|
 | `days`        | number   | Return only events from the last N days (including today).| `/categories/8?days=20`|
 
+**Note:**  
+For the above endpoints, `/events` and `/categories/:id` have default parameters set:  
+- `limit = 5`  
+- `days = 10`  
+- `status = open`
 ### `GET /all-categories`
 
 Retrieve the list of all available categories.
