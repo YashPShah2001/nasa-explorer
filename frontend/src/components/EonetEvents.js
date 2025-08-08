@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useMemo } from 'react';
 import moment from 'moment';
 
 import { FaMapMarkerAlt, FaLink, FaCalendarAlt, FaExternalLinkAlt } from 'react-icons/fa';
@@ -61,14 +61,25 @@ function EonetEvents() {
     }, [selectedCategory, limit, priorDays, status, sourceIds, BASE_URL]);
 
     // Filtering the events list with respect to event id, event title, categories and sources
-    const filteredEvents = events?.events.filter((event) => {
+    const filteredEvents = useMemo(() => {
+        if (!events?.events) return [];
+    
         const search = searchTerm.toLowerCase();
-        const matchId = event.id.toLowerCase().includes(search);
-        const matchTitle = event.title.toLowerCase().includes(search);
-        const matchCategory = event.categories.some(cat => cat.title.toLowerCase().includes(search));
-        const matchSource = event.sources.some(src => src.id.toLowerCase().includes(search));
-        return matchId || matchTitle || matchCategory || matchSource;
-    });
+    
+        return events.events.filter((event) => {
+            const matchId = event.id.toLowerCase().includes(search);
+            const matchTitle = event.title.toLowerCase().includes(search);
+            const matchCategory = event.categories.some(cat => 
+                cat.title.toLowerCase().includes(search)
+            );
+            const matchSource = event.sources.some(src => 
+                src.id.toLowerCase().includes(search)
+            );
+    
+            return matchId || matchTitle || matchCategory || matchSource;
+        });
+    }, [events, searchTerm]);
+
     // Pagination logic on filtered events list
     const indexOfLast = currentPage * eventsPerPage;
     const indexOfFirst = indexOfLast - eventsPerPage;
